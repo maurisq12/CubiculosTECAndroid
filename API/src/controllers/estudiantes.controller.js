@@ -6,3 +6,26 @@ export const getEstudiantes = async (req, res) => {
     res.json(resp.recordset)
 }
 
+export const editarEstudiante = async (req,res) =>{
+
+    const {pCedula,pCarne, pNombre, pApellido1, pApellido2, pFechaNacimiento, pCorreo, pContrasena} = req.body
+
+    if( pCedula==null || pCarne==null || pNombre==null || pApellido1==null || pApellido2==null || pFechaNacimiento==null || pCorreo==null || pContrasena==null){
+        return res.status(400).json({msg:"Bad request. Please fill all fields"})
+    }
+
+    const pool = await getConnection();
+    pool.request()
+    .input('pCedula',sql.Int,pCedula)
+    .input('pCarne',sql.Int,pCarne)
+    .input('pNombre', sql.VarChar, pNombre)
+    .input('pApellido1', sql.VarChar, pApellido1)
+    .input('pApellido2', sql.VarChar, pApellido2)
+    .input('pFechaNacimiento',sql.Date, pFechaNacimiento)
+    .input('pCorreo',sql.SmallInt,pCorreo)
+    .input('pContrasena',sql.SmallInt,pContrasena)
+    .input('pEstado',sql.SmallInt,1)
+    .query("modificarEstudiante @pCorreo, @pContrasena,@pCedula,@pCarne, @pNombre, @pApellido1, @pApellido2, @pFechaNacimiento, @pEstado")
+
+    res.json('prueba')
+}

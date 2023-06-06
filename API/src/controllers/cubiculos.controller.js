@@ -44,3 +44,19 @@ export const editarCubiculo = async (req,res) =>{
 
     res.json('prueba')
 }
+
+export const eliminarCubiculo = async (req,res) =>{
+
+    const {idCubiculo} = req.body
+
+    if(idCubiculo==null){
+        return res.status(400).json({msg:"Bad request. Please fill all fields"})
+    }
+
+    const pool = await getConnection();
+    pool.request()
+    .input('idCubiculo',sql.Int, idCubiculo)
+    .query("eliminarCubiculo @idCubiculo")
+
+    res.json('prueba')
+}
