@@ -6,6 +6,7 @@ const routerA = Router();
 routerA.get('/asignaciones', getAsignaciones)
 routerA.post('/asignaciones/edit', modificarAsignacion)
 routerA.post('/asignaciones/new', crearAsignacion)
+routerA.post('/asignaciones/delete', crearAsignacion)
 
 
 export default routerA;

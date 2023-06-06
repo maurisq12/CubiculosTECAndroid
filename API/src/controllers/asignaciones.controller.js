@@ -1,4 +1,4 @@
-import { getConnection } from '../database/connection'
+import { getConnection,sql } from '../database/connection'
 
 export const getAsignaciones = async (req, res) => {
     const con = await getConnection();
@@ -41,3 +41,21 @@ export const modificarAsignacion = async (req,res) =>{
 
     res.json('prueba')
 }
+
+export const eliminarAsignacion = async (req,res) =>{
+
+    const {idAsignacion} = req.body
+
+    if(idAsignacion==null){
+        return res.status(400).json({msg:"Bad request. Please fill all fields"})
+    }
+
+    const pool = await getConnection();
+    pool.request()
+    .input('idReservacion',sql.Int, idAsignacion)
+    .query("eliminarReservacion @idReservacion")
+
+    res.json('prueba')
+}
+
+

@@ -1,4 +1,4 @@
-import { getConnection } from '../database/connection'
+import { getConnection,sql } from '../database/connection'
 
 export const getEstudiantes = async (req, res) => {
     const con = await getConnection();
@@ -26,6 +26,22 @@ export const editarEstudiante = async (req,res) =>{
     .input('pContrasena',sql.SmallInt,pContrasena)
     .input('pEstado',sql.SmallInt,1)
     .query("modificarEstudiante @pCorreo, @pContrasena,@pCedula,@pCarne, @pNombre, @pApellido1, @pApellido2, @pFechaNacimiento, @pEstado")
+
+    res.json('prueba')
+}
+
+export const eliminarEstudiante = async (req,res) =>{
+
+    const {idEstudiante} = req.body
+
+    if(idEstudiante==null){
+        return res.status(400).json({msg:"Bad request. Please fill all fields"})
+    }
+
+    const pool = await getConnection();
+    pool.request()
+    .input('idEstudiante',sql.Int, idEstudiante)
+    .query("eliminarEstudiante @idEstudiante")
 
     res.json('prueba')
 }
