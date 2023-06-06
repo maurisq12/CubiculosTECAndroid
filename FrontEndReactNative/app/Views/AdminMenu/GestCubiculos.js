@@ -13,7 +13,7 @@ function GestCubiculos(props) {
     const [lista, setLista] = useState([])
 
     const [loading, setLoading] = useState(true)
-    const url = "http://192.168.18.73:3000/cubiculos";
+    const url = "http://192.168.18.10:3000/cubiculos";
 
     useEffect(() => {
         fetch(url)
@@ -46,6 +46,38 @@ function GestCubiculos(props) {
             setLista(data)
         }
       }
+
+      function  EliminarCubiculo(id){
+        fetch("http://192.168.18.10:3000/cubiculos/delete", {
+            method: "POST",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                idCubiculo:id,
+
+            }),
+        })
+            .then((response) => response.json())
+            .then((responseData) => {
+                console.log(JSON.stringify(responseData));
+                navigationN.goBack()
+            })
+           
+    }
+      
+
+      
+    const alertaEliminar = (nombre, id) =>
+    Alert.alert('¿Eliminar', nombre+["?"] , [
+        {
+          text: 'Cancelar',
+          onPress: () => console.log('Cancel Pressed'),
+          style: 'cancel',
+        },
+        {text: 'Eliminar', onPress: () => EliminarCubiculo(id)},
+      ]);
 
     return (
 
@@ -86,7 +118,7 @@ function GestCubiculos(props) {
                                                 <Text style={{ fontSize: 20, color: "white" }}>Editar</Text>
                                             </View>
                                         </TouchableOpacity>
-                                        <TouchableOpacity onPress={botonListaApartados}>
+                                        <TouchableOpacity onPress={() => alertaEliminar(post.nombre,post.idCubiculo)}>
                                             <View style={MainScreenStyles.buttonDelete}>
                                                 <Text style={{ fontSize: 20, color: "white" }}>Eliminar</Text>
                                             </View>
